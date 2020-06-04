@@ -86,6 +86,19 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./bin/tex.jpg":
+/*!*********************!*\
+  !*** ./bin/tex.jpg ***!
+  \*********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "3cca3e0302c46242c55ad0e72a66526e.jpg");
+
+/***/ }),
+
 /***/ "./node_modules/gl-matrix/esm/common.js":
 /*!**********************************************!*\
   !*** ./node_modules/gl-matrix/esm/common.js ***!
@@ -7799,7 +7812,7 @@ var forEach = function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("#version 300 es\r\n\r\nprecision highp float;\r\n\r\nuniform sampler2D tex;\r\nuniform float time;\r\nuniform float MouseX;\r\nuniform float MouseY;\r\nuniform float Zoom;\r\nuniform float W;\r\nuniform float H;\r\n\r\nout vec4 oColor;\r\n\r\nvec2 mul( vec2 a, vec2 b )\r\n{\r\n  return vec2(a.x * b.x - a.y * b.y, a.y * b.x + a.x * b.y);\r\n}\r\n\r\nvoid main()\r\n{\r\n  vec2 uv = gl_FragCoord.xy / vec2(W, H);\r\n  vec2 z = (uv - vec2(0.5 + MouseX, 0.5 + MouseY)) * Zoom;\r\n  vec2 c = vec2(sin(time), cos(time));\r\n  float n = 1.0;\r\n  const float maxIter = 3047.0;\r\n\r\n  while (n++ < maxIter && length(z) < 2.0)\r\n    z = mul(z, z) + c;\r\n  oColor = texture(tex, vec2(n / maxIter * 102.8, 30.47));\r\n}");
+/* harmony default export */ __webpack_exports__["default"] = ("#version 300 es\r\n\r\nprecision highp float;\r\n\r\nuniform sampler2D tex;\r\nuniform float time;\r\nuniform float MouseX;\r\nuniform float MouseY;\r\nuniform float Zoom;\r\nuniform float W;\r\nuniform float H;\r\n\r\nout vec4 oColor;\r\n\r\nvec2 mul( vec2 a, vec2 b )\r\n{\r\n  return vec2(a.x * b.x - a.y * b.y, a.y * b.x + a.x * b.y);\r\n}\r\n\r\nvoid main()\r\n{\r\n  vec2 uv = gl_FragCoord.xy / vec2(W, H);\r\n  vec2 z = (uv - vec2(0.5 + MouseX, 0.5 + MouseY)) * Zoom;\r\n  vec2 c = vec2(sin(time), cos(time));\r\n  float n = 1.0;\r\n  const float maxIter = 255.0;\r\n\r\n  while (n++ < maxIter && length(z) < 2.0)\r\n    z = mul(z, z) + c;\r\n  oColor = texture(tex, vec2(n / maxIter * 30.102, n / maxIter * 8.47));\r\n}");
 
 /***/ }),
 
@@ -7815,6 +7828,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/index.js");
 /* harmony import */ var _main_vert__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./main.vert */ "./src/main.vert");
 /* harmony import */ var _main_frag__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./main.frag */ "./src/main.frag");
+/* harmony import */ var _bin_tex_jpg__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../bin/tex.jpg */ "./bin/tex.jpg");
+
 
 
 
@@ -7962,7 +7977,7 @@ function webGLStart() {
     var mousePos = getMousePos(canvas, evt);
   }, false);
   initGL(canvas);
-  tex = loadTexture('./../bin/tex.jpg');
+  tex = loadTexture(_bin_tex_jpg__WEBPACK_IMPORTED_MODULE_3__["default"]);
   initShaders();
   initBuffers();
   gl.clearColor(0.3, 0.5, 0.7, 1.0);

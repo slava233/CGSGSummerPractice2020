@@ -2,6 +2,7 @@ import { mat4 } from 'gl-matrix';
 
 import vxShaderStr from './main.vert';
 import fsShaderStr from './main.frag';
+import texSrc from './../bin/tex.jpg';
 
 let tex, mvMatrix = mat4.create(), pMatrix = mat4.create(), startTime = Date.now(), Zoom = 4.0, MouseX = 0, MouseY = 0;
 
@@ -157,7 +158,7 @@ function webGLStart () {
   }, false);
 
   initGL(canvas);
-  tex = loadTexture('./../bin/tex.jpg');
+  tex = loadTexture(texSrc);
   initShaders();
   initBuffers();
 

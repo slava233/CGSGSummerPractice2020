@@ -7,7 +7,7 @@
     "build": "webpack --config webpack.config.js",
     "start-dev": "webpack-dev-server"
   },
-  "author": "",
+  "author": "SK3",
   "license": "SK3",
   "dependencies": {
     "@babel/core": "^7.10.2",
@@ -19,6 +19,7 @@
     "raw-loader": "^4.0.1",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "file-loader": "^6.0.0"
   }
 }
