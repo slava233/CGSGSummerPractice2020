@@ -24,7 +24,7 @@ class FractalDrawer {
   timeSpeed = 2.0 + this.timeSpeedSlider.value / 2500.0;
   transPos = [0.0, 0.0];
   uTimeMs = 0;
-  zoom = 0.5;
+  zoom = 1.0;
   
   initGL = (canvas) => {
     try {
@@ -54,9 +54,8 @@ class FractalDrawer {
   }
 
   initShaders = () => {
-    const
-      fragmentShader = this.getShader(this.gl, this.gl.FRAGMENT_SHADER, fsShaderStr),
-      vertexShader = this.getShader(this.gl, this.gl.VERTEX_SHADER, vxShaderStr);
+    let fragmentShader = this.getShader(this.gl, this.gl.FRAGMENT_SHADER, fsShaderStr);
+    let vertexShader = this.getShader(this.gl, this.gl.VERTEX_SHADER, vxShaderStr);
   
     this.shaderProgram = this.gl.createProgram();
     this.gl.attachShader(this.shaderProgram, fragmentShader);
@@ -105,7 +104,7 @@ class FractalDrawer {
       1, 1, 0, this.gl.RGBA, this.gl.UNSIGNED_BYTE,
       new Uint8Array([0, 0, 255, 255]));
   
-    const image = new Image();
+    let image = new Image();
     image.onload = () => {
       this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture);
       this.gl.texImage2D(this.gl.TEXTURE_2D, 0, this.gl.RGBA,
@@ -172,11 +171,10 @@ class FractalDrawer {
   
     this.zoom = updateScale;
   
-    const
-      newLeft = this.borders.left + mPos.x / this.gl.viewportWidth * (this.borders.right - this.borders.left) * (1.0 - updateScale),
-      newBottom = this.borders.bottom + mPos.y / this.gl.viewportHeight * (this.borders.top - this.borders.bottom) * (1.0 - updateScale),
-      newRight = newLeft + (this.borders.right - this.borders.left) * updateScale,
-      newTop = newBottom + (this.borders.top - this.borders.bottom) * updateScale;
+    let newLeft = this.borders.left + mPos.x / this.gl.viewportWidth * (this.borders.right - this.borders.left) * (1.0 - updateScale);
+    let newBottom = this.borders.bottom + mPos.y / this.gl.viewportHeight * (this.borders.top - this.borders.bottom) * (1.0 - updateScale);
+    let newRight = newLeft + (this.borders.right - this.borders.left) * updateScale;
+    let newTop = newBottom + (this.borders.top - this.borders.bottom) * updateScale;
   
     this.borders.left = newLeft;
     this.borders.right = newRight;
@@ -185,12 +183,12 @@ class FractalDrawer {
   }
 
   constructor () {
-    const canvas = document.getElementById('webglCanvas');
+    let canvas = document.getElementById('webglCanvas');
 
     document.getElementById('hash').innerHTML += ' ' + gitHash;
 
     function getMousePos (canvas, evt) {
-      const rect = canvas.getBoundingClientRect();
+      let rect = canvas.getBoundingClientRect();
       return {
         x: evt.clientX - rect.left,
         y: evt.clientY - rect.top
@@ -216,14 +214,13 @@ class FractalDrawer {
   
     canvas.addEventListener('mousemove', (evt) => {
       if (this.isHold === true) {
-        const prevMousePos = this.mousePos;
+        let prevMousePos = this.mousePos;
         this.mousePos = getMousePos(canvas, evt);
 
-        const
-          newLeft = this.borders.left - (this.mousePos.x - prevMousePos.x) / this.gl.viewportWidth * (this.borders.right - this.borders.left),
-          newBottom = this.borders.bottom + (this.mousePos.y - prevMousePos.y) / this.gl.viewportHeight * (this.borders.top - this.borders.bottom),
-          newRight = newLeft + (this.borders.right - this.borders.left),
-          newTop = newBottom + (this.borders.top - this.borders.bottom);
+        let newLeft = this.borders.left - (this.mousePos.x - prevMousePos.x) / this.gl.viewportWidth * (this.borders.right - this.borders.left);
+        let newBottom = this.borders.bottom + (this.mousePos.y - prevMousePos.y) / this.gl.viewportHeight * (this.borders.top - this.borders.bottom);
+        let newRight = newLeft + (this.borders.right - this.borders.left);
+        let newTop = newBottom + (this.borders.top - this.borders.bottom);
   
         this.borders.left = newLeft;
         this.borders.right = newRight;
