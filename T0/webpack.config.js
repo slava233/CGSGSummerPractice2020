@@ -2,20 +2,22 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 module.exports = {
-  mode: 'development',
-  entry: './src/main.js',
-  output: {
-    filename: 'index-bundles.js',
-    path: path.resolve(__dirname, 'dist')
-  },
   devtool: 'source-map',
+  entry: './src/main.js',
+  mode: 'development',
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
+        test: /\.(js|jsx)$/,
         use: {
           loader: 'babel-loader'
+        }
+      },
+      {
+        test: /\.(txt)$/,
+        use: {
+          loader: 'raw-loader'
         }
       },
       {
@@ -26,21 +28,21 @@ module.exports = {
       },
       {
         test: /\.html$/,
-        use: [
-          {
-            loader: 'html-loader'
-          }
-        ]
+        use: {
+          loader: 'html-loader'
+        }
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
-        use: [
-          {
-            loader: 'file-loader'
-          }
-        ]
+        use: {
+          loader: 'file-loader'
+        }
       }
     ]
+  },
+  output: {
+    filename: 'index-bundles.js',
+    path: path.resolve(__dirname, 'dist')
   },
   plugins: [
     new HtmlWebPackPlugin({
