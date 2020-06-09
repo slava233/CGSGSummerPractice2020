@@ -185,7 +185,7 @@ class FractalDrawer {
   constructor () {
     let canvas = document.getElementById('webglCanvas');
 
-    document.getElementById('hash').innerHTML += ' ' + gitHash;
+    document.getElementById('hash').innerHTML += "<a href='https://github.com/slava233/CGSGSummerPractice2020'>Git</a>" + " Hash: " + gitHash;
 
     function getMousePos (canvas, evt) {
       let rect = canvas.getBoundingClientRect();
