@@ -6,8 +6,14 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Stats from 'stats.js';
 
 function clamp(a, b, c) {
-  return Math.max(b, Math.min(c, a));
+  return Math.min(Math.max(a, b), c);
 };
+
+function smoothstep(a, b, c) {
+  let t;
+  t = clamp((c - a) / (b - a), 0.0, 1.0);
+  return t * t * (3.0 - 2.0 * t);
+}
 
 function TurbNoise (x, y, S, Noise, Octaves) {
   let n2 = 2;
@@ -17,7 +23,7 @@ function TurbNoise (x, y, S, Noise, Octaves) {
     res += (Noise.noise(x, y, S) * 0.5 + 0.5) / n2;
   }
 
-  return res;
+  return 0;
 }
 
 class Drawer {
@@ -214,27 +220,33 @@ class Drawer {
       N[i + 2] = n.z;
     }
 
+    let maxH = -Infinity;
+    let minH = Infinity;
+
+    for (i = 1; i < P.length; i += 3) {
+      if (P[i] > maxH) {
+        maxH = P[i];
+      }
+      if (P[i] < minH) {
+        minH = P[i];
+      }
+    }
+
     this.geometry.setAttribute('color', new THREE.BufferAttribute(new Float32Array(P.length), 3));
 
     let C = this.geometry.attributes.color.array;
 
-    function smax (a, b) {
-      let h = 0.04;
-      let k = clamp((b - a) / h / 2.0 + 0.5, 0.0, 1.0);
-
-      return -(a * (k - 1) - b * k) + k * (1.0 - k) * h;
-    }
-
     for (i = 0; i < C.length; i += 3) {
-      let y = 1 - P[i + 1] / 0.3 - 0.5;
-      let M = Math.pow(Math.max(0.0, 1.0 - 1.7 * y) * 1.1, 2.0);
-      let Gr = Math.min(clamp(4.3 - 5.0 * y, 0.0, 0.3), Math.pow(clamp(y * 0.6 - 0.14, 0.0, 0.3) / 0.3, 2.0) * 0.3);
-      let Sand = clamp(Math.min(Math.pow(Math.max(0.0, 5.0 * y - 3.5), 1.5), 4.3 - 5.0 * y), 0.0, 0.3);
-      let Sea = Math.pow(Math.max(0.0, 0.7 - Math.abs(2.8 - 3.0 * y)), 1.3);
+      let vAmount = (P[i + 1] - minH) / (maxH - minH);
+      let water = (smoothstep(0.01, 0.05, vAmount) - smoothstep(0.025, 0.075, vAmount));
+	    let sandy = (smoothstep(0.05, 0.1, vAmount) - smoothstep(0.075, 0.125, vAmount));
+	    let grass = (smoothstep(0.1, 0.15, vAmount) - smoothstep(0.125, 0.475, vAmount));
+	    let rocky = (smoothstep(0.15, 0.5, vAmount) - smoothstep(0.325, 0.75, vAmount));
+	    let snowy = (smoothstep(0.5, 1.0, vAmount));
 
-      C[i] = Sand + M;
-      C[i + 1] = smax(M, Gr);
-      C[i + 2] = Sea + M;
+      C[i] = sandy + rocky * 0.5 + snowy;
+      C[i + 1] = sandy + grass + rocky * 0.5 + snowy;
+      C[i + 2] = water + rocky * 0.5 + snowy;
     }
   }
 }
